@@ -24,7 +24,32 @@ module Nrepl
     #  will pick the port
     # @return [Nrepl::Repl] a repl instance
     def self.start(port=nil)
-      raise "not working yet"
+      read, write = IO.pipe
+      
+      pid = fork do
+        read.close
+        Process.setsid
+        STDOUT.reopen write
+        STDERR.reopen write
+        STDIN.reopen  "/dev/null", "r"
+        exec "bash -c 'lein repl :headless :port #{port}'"
+      end
+      
+      write.close
+      line = read.gets
+      case line
+      when /Address already in use/ ;
+        # no-op, just connect to existing repl
+      when /nREPL server started on port (\d+)/
+        port = $~[1].to_i
+      else
+        raise "Unknown error launching repl: #{line}"
+        Process.kill(pid)
+        Process.waitpid(pid)
+      end
+      read.close
+
+      new(port)
     end
     
     def initialize(port)
