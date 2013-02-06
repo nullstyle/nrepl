@@ -1,0 +1,2 @@
+projectDirectory = $CWD
+include = "{$include,.pryrc,.gitignore}"

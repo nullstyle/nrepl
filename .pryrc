@@ -1,0 +1,3 @@
+require 'nrepl'
+
+include Nrepl
