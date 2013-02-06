@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Nrepl::VERSION
   gem.authors       = ["Scott Fleckenstein"]
   gem.email         = ["nullstyle@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{nrepl is a library used to connect a clojure nrepl}
+  gem.summary       = %q{nrepl is a library used to connect a clojure nrepl}
+  gem.homepage      = "https://github.com/nullstyle/nrepl"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
