@@ -71,25 +71,47 @@ module Nrepl
       !!get_socket(0)
     end
     
+    ##
+    # Clones the bindings for the provided session and sets the new session to
+    # current
+    # 
+    # @param [String,nil] session The optional prototype session to clone from
+    # @return [String] the new session id
     def clone_session(session=nil)
       response = send(op:"clone", session:session).first
       @session = response["new-session"]
       @session
     end
     
+    ##
+    # Closes the provided sessions
+    # 
+    # @param [String,nil] session An optional session identifier, otherwise the
+    #   current session will be closed
     def close_session(session=nil)
       result = send(op:"close", session:session)
     end
     
+    ##
+    # Returns a list of sessions known to the repl
+    # 
+    # @return [<String>] An array of session ids
     def list_sessions
       response = send(op:"ls-sessions").first
       response["sessions"]
     end
     
+    ##
+    # Evaluates code on the repl, returning an array of responses
+    # 
+    # @param [String] code The code to run
     def eval(code, &block)
       result = send(op:"eval", code:code, &block)
     end
     
+    ##
+    # Sends a raw command to the repl, returning an array of responses
+    # 
     def send(command)
       command = command.reverse_merge(session: @session).delete_blank
       
