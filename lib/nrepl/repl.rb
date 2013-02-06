@@ -59,35 +59,32 @@ module Nrepl
       result = send(op:"ls-sessions")
     end
     
-    def eval(code)
-      result = send(op:"eval", code:code)
+    def eval(code, &block)
+      result = send(op:"eval", code:code, &block)
     end
     
     def send(command)
       command = command.reverse_merge(session: @session).delete_blank
       
       sock = get_socket
+      
       sock.print command.bencode
       
-      if @debug
-        puts ">>> #{command.inspect}"
-      end
+      puts ">>> #{command.inspect}" if @debug
       
       responses = []
       done = false
       
       until done
         retriable timeout: 0.2, tries: 100 do
-          raw = sock.recv(100000)
+          raw = sock.recv(100000) #TODO: figure out better way to ensure we've drained the receive buffer besides large magic number
+          decoded = raw.bdecode
           
-          if @debug
-            puts "<<< #{raw.bdecode}"
-          end
-          
-          responses << raw.bdecode
+          puts "<<< #{decoded}" if @debug
+          responses << decoded
+          yield decoded if block_given?
           
           status = responses.last["status"]
-          
           done = status.include?("done") || status.include?("error")
         end
       end
