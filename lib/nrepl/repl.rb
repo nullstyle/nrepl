@@ -47,8 +47,9 @@ module Nrepl
     end
     
     def clone_session(session=nil)
-      result = send(op:"clone", session:session)
-      result["new-session"]
+      response = send(op:"clone", session:session).first
+      @session = response["new-session"]
+      @session
     end
     
     def close_session(session=nil)
