@@ -56,7 +56,8 @@ module Nrepl
     end
     
     def list_sessions
-      result = send(op:"ls-sessions")
+      response = send(op:"ls-sessions").first
+      response["sessions"]
     end
     
     def eval(code, &block)
