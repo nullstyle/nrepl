@@ -24,7 +24,7 @@ module Nrepl
     #  will pick the port
     # @return [Nrepl::Repl] a repl instance
     def self.start(port=nil)
-      new(port)
+      raise "not working yet"
     end
     
     def initialize(port)
