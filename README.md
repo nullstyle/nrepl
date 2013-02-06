@@ -18,7 +18,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Connecting to an existing repl
+
+```ruby
+repl = Nrepl::Repl.connect(1234) # connect to port 1234
+```
+
+### Evaluating code in the repl
+
+```ruby
+repl.eval "(+ 3 3)" # => an array of responses messages from the repl
+```
 
 ## Contributing
 
