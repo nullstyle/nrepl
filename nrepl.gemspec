@@ -16,10 +16,10 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
-  
+
   gem.add_dependency "bencode",       "~> 0.7.0"
   gem.add_dependency "retriable",     "~> 1.3.3"
-  gem.add_dependency "activesupport", "~> 3.2.11"
-  
+  gem.add_dependency "activesupport", "~> 4.0"
+
   gem.add_development_dependency "pry", "~> 0.9.11.4"
 end
